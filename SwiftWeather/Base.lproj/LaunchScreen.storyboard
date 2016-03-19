@@ -19,12 +19,20 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="59R-hR-PzL">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Og0-mK-M6r">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Og0-mK-M6r" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="2eI-bH-eLn"/>
                             <constraint firstAttribute="trailing" secondItem="59R-hR-PzL" secondAttribute="trailing" id="GGr-O4-QgN"/>
+                            <constraint firstAttribute="bottom" secondItem="Og0-mK-M6r" secondAttribute="bottom" id="HCZ-zs-FMh"/>
                             <constraint firstItem="59R-hR-PzL" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="IXb-Pk-dfa"/>
                             <constraint firstAttribute="bottom" secondItem="59R-hR-PzL" secondAttribute="bottom" id="Pg2-bI-Mr9"/>
+                            <constraint firstItem="Og0-mK-M6r" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="TMF-yV-UIb"/>
+                            <constraint firstAttribute="trailing" secondItem="Og0-mK-M6r" secondAttribute="trailing" id="bAy-Ye-T8J"/>
                             <constraint firstItem="59R-hR-PzL" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="s0o-cq-lmE"/>
                         </constraints>
                     </view>

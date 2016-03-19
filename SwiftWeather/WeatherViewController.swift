@@ -21,8 +21,6 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
         let viewModel = WeatherViewModel()
 
-        viewModel.startLocationService()
-
         viewModel.location.asObservable()
             .bindTo(locationLabel.rx_text)
             .addDisposableTo(disposeBag)
@@ -35,18 +33,21 @@ class WeatherViewController: UIViewController {
             .bindTo(temperatureLabel.rx_text)
             .addDisposableTo(disposeBag)
 
-        viewModel.forecasts.asObservable()
+        viewModel.forecasts.asObservable() // For more you can use `of` & `merge`
+        .filter { $0.count >= 4 }
             .bindNext { forecastModels in
-                if forecastModels.count >= 4 {
-                    for (index, forecastView) in self.forecastViews.enumerate() {
-                        forecastView.timeLabel.text = forecastModels[index].time
-                        forecastView.iconLabel.text = forecastModels[index].iconText
-                        forecastView.temperatureLabel.text = forecastModels[index].temperature
-                    }
+                for (index, forecastView) in self.forecastViews.enumerate() {
+                    forecastView.timeLabel.text = forecastModels[index].time
+                    forecastView.iconLabel.text = forecastModels[index].iconText
+                    forecastView.temperatureLabel.text = forecastModels[index].temperature
                 }
         }
             .addDisposableTo(disposeBag)
+
+        viewModel.startLocationService()
     }
+
+    // MARK: - Status Bar Style
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
