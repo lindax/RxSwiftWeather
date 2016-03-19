@@ -6,34 +6,35 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import CoreLocation
 
 class WeatherViewController: UIViewController {
-  
+
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var iconLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet var forecastViews: [ForecastView]!
-    
+
     let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let viewModel = WeatherViewModel()
-        
+
         viewModel.startLocationService()
-        
+
         viewModel.location.asObservable()
             .bindTo(locationLabel.rx_text)
             .addDisposableTo(disposeBag)
-        
+
         viewModel.iconText.asObservable()
             .bindTo(iconLabel.rx_text)
             .addDisposableTo(disposeBag)
-        
+
         viewModel.temperature.asObservable()
             .bindTo(temperatureLabel.rx_text)
             .addDisposableTo(disposeBag)
-        
+
         viewModel.forecasts.asObservable()
             .bindNext { forecastModels in
                 if forecastModels.count >= 4 {
@@ -43,12 +44,11 @@ class WeatherViewController: UIViewController {
                         forecastView.temperatureLabel.text = forecastModels[index].temperature
                     }
                 }
-            }
+        }
             .addDisposableTo(disposeBag)
     }
-    
+
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
     }
-    
 }
