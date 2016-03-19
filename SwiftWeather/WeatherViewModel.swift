@@ -44,7 +44,7 @@ class WeatherViewModel {
                 } else {
                     return Observable.empty()
                 }
-        }
+            }
             .flatMap { OpenWeatherMapService.rx_retrieveWeatherInfo($0) }
             .observeOn(MainScheduler.instance)
             .doOnError { print($0) }
@@ -57,7 +57,7 @@ class WeatherViewModel {
                 self.temperature.value = weather.temperature
 
                 self.forecasts.value = weather.forecasts
-        }
+            }
             .addDisposableTo(disposeBag)
     }
 

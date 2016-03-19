@@ -34,14 +34,14 @@ class WeatherViewController: UIViewController {
             .addDisposableTo(disposeBag)
 
         viewModel.forecasts.asObservable() // For more you can use `of` & `merge`
-        .filter { $0.count >= 4 }
+            .filter { $0.count >= 4 }
             .bindNext { forecastModels in
                 for (index, forecastView) in self.forecastViews.enumerate() {
                     forecastView.timeLabel.text = forecastModels[index].time
                     forecastView.iconLabel.text = forecastModels[index].iconText
                     forecastView.temperatureLabel.text = forecastModels[index].temperature
                 }
-        }
+            }
             .addDisposableTo(disposeBag)
 
         viewModel.startLocationService()
