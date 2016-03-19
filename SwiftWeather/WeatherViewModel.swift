@@ -5,97 +5,88 @@
 
 import Foundation
 import CoreLocation
+import RxSwift
 
 class WeatherViewModel {
-  // MARK: - Constants
-  private let EmptyString = ""
+    // MARK: - Constants
+    private let EmptyString = ""
   
-  // MARK: - Properties
-  let hasError: Observable<Bool>
-  let errorMessage: Observable<String?>
+    // MARK: - Properties
+    let hasError = Variable(false)
+    let errorMessage: Variable<String?> = Variable(nil)
   
-  let location: Observable<String>
-  let iconText: Observable<String>
-  let temperature: Observable<String>
-  let forecasts: Observable<[ForecastViewModel]>
   
-  // MARK: - Services
-  private var locationService: LocationService
-  private var weatherService: WeatherServiceProtocol
+    let location = Variable("")
+    let iconText = Variable("")
+    let temperature = Variable("")
+    let forecasts: Variable<[Forecast]> = Variable([])
   
-  // MARK: - init
-  init() {
-    hasError = Observable(false)
-    errorMessage = Observable(nil)
-    
-    location = Observable(EmptyString)
-    iconText = Observable(EmptyString)
-    temperature = Observable(EmptyString)
-    forecasts = Observable([])
-    
-    // Can put Dependency Injection here
-    locationService = LocationService()
-    weatherService = OpenWeatherMapService()
-  }
+    // MARK: - Services
+    private var locationService: LocationService
+    private var weatherService: WeatherServiceProtocol
   
-  // MARK: - public
-  func startLocationService() {
-    locationService.delegate = self
-    locationService.requestLocation()
-  }
+    // MARK: - init
+    init() {
+      // Can put Dependency Injection here
+      locationService = LocationService()
+      weatherService = OpenWeatherMapService()
+    }
   
-  // MARK: - private
-  private func update(weather: Weather) {
-      hasError.value = false
-      errorMessage.value = nil
+    // MARK: - public
+    func startLocationService() {
+        locationService.delegate = self
+        locationService.requestLocation()
+    }
+  
+    // MARK: - private
+    private func update(weather: Weather) {
+        hasError.value = false
+        errorMessage.value = nil
       
-      location.value = weather.location
-      iconText.value = weather.iconText
-      temperature.value = weather.temperature
-      
-      let tempForecasts = weather.forecasts.map { forecast in
-        return ForecastViewModel(forecast)
-      }
-      forecasts.value = tempForecasts
-  }
+        location.value = weather.location
+        iconText.value = weather.iconText
+        temperature.value = weather.temperature
+
+        forecasts.value = weather.forecasts
+    }
   
-  private func update(error: Error) {
-      hasError.value = true
+    private func update(error: Error) {
+        hasError.value = true
       
-      switch error.errorCode {
-      case .URLError:
-        errorMessage.value = "The weather service is not working."
-      case .NetworkRequestFailed:
-        errorMessage.value = "The network appears to be down."
-      case .JSONSerializationFailed:
-        errorMessage.value = "We're having trouble processing weather data."
-      case .JSONParsingFailed:
-        errorMessage.value = "We're having trouble parsing weather data."
-      }
+        switch error.errorCode {
+        case .URLError:
+          errorMessage.value = "The weather service is not working."
+        case .NetworkRequestFailed:
+          errorMessage.value = "The network appears to be down."
+        case .JSONSerializationFailed:
+          errorMessage.value = "We're having trouble processing weather data."
+        case .JSONParsingFailed:
+          errorMessage.value = "We're having trouble parsing weather data."
+        }
       
-      location.value = EmptyString
-      iconText.value = EmptyString
-      temperature.value = EmptyString
-      self.forecasts.value = []
-  }
+        location.value = EmptyString
+        iconText.value = EmptyString
+        temperature.value = EmptyString
+        self.forecasts.value = []
+    }
 }
 
 // MARK: LocationServiceDelegate
 extension WeatherViewModel: LocationServiceDelegate {
-  func locationDidUpdate(service: LocationService, location: CLLocation) {
-    weatherService.retrieveWeatherInfo(location) { (weather, error) -> Void in
-      dispatch_async(dispatch_get_main_queue(), {
-        if let unwrappedError = error {
-          print(unwrappedError)
-          self.update(unwrappedError)
-          return
-        }
+    func locationDidUpdate(service: LocationService, location: CLLocation) {
+      weatherService.retrieveWeatherInfo(location) { weather, error in
+        dispatch_async(dispatch_get_main_queue()) {
+          if let unwrappedError = error {
+            print(unwrappedError)
+            self.update(unwrappedError)
+            return
+          }
         
-        guard let unwrappedWeather = weather else {
-          return
+          guard let unwrappedWeather = weather else {
+            return
+          }
+          self.update(unwrappedWeather)
         }
-        self.update(unwrappedWeather)
-      })
+      }
     }
-  }
 }

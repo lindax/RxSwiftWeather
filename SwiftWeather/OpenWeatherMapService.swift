@@ -7,6 +7,8 @@ import Foundation
 import CoreLocation
 
 import SwiftyJSON
+import RxSwift
+import RxCocoa
 
 struct OpenWeatherMapService: WeatherServiceProtocol {
   private let urlPath = "http://api.openweathermap.org/data/2.5/forecast"
@@ -23,6 +25,7 @@ struct OpenWeatherMapService: WeatherServiceProtocol {
     
     print(url)
     let request = NSURLRequest(URL: url)
+    
     let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, networkError) -> Void in
       
       // Check network error

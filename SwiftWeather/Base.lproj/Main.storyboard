@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -136,13 +136,18 @@
                                                                 </userDefinedRuntimeAttributes>
                                                             </view>
                                                         </subviews>
+                                                        <variation key="heightClass=compact" ambiguous="YES" misplaced="YES">
+                                                            <rect key="frame" x="0.0" y="145" width="130" height="115"/>
+                                                        </variation>
                                                     </stackView>
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstItem="mjK-Yg-kU1" firstAttribute="height" secondItem="y4d-hQ-IEP" secondAttribute="height" id="6cI-BZ-GjX"/>
                                                     <constraint firstItem="8G3-c1-MSy" firstAttribute="height" secondItem="y4d-hQ-IEP" secondAttribute="height" id="yXc-g5-Yhj"/>
                                                 </constraints>
-                                                <variation key="heightClass=compact" axis="vertical"/>
+                                                <variation key="heightClass=compact" axis="vertical" ambiguous="YES" misplaced="YES">
+                                                    <rect key="frame" x="255" y="0.0" width="130" height="260"/>
+                                                </variation>
                                             </stackView>
                                         </subviews>
                                         <constraints>
@@ -223,6 +228,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background" width="1250" height="781"/>
+        <image name="background" width="625" height="390"/>
     </resources>
 </document>

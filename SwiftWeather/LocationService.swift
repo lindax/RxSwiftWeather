@@ -7,37 +7,37 @@ import Foundation
 import CoreLocation
 
 protocol LocationServiceDelegate {
-  func locationDidUpdate(service: LocationService, location: CLLocation)
+    func locationDidUpdate(service: LocationService, location: CLLocation)
 }
 
 class LocationService : NSObject {
-  var delegate: LocationServiceDelegate?
+    var delegate: LocationServiceDelegate?
   
-  private let locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
   
-  override init() {
-    super.init()
+    override init() {
+        super.init()
     
-    locationManager.delegate = self
-    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-  }
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+    }
   
-  func requestLocation() {
-    locationManager.requestWhenInUseAuthorization()
-    locationManager.requestLocation()
-  }
+    func requestLocation() {
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+    }
 }
 
 // MARK: - CLLocationManagerDelegate
 extension LocationService : CLLocationManagerDelegate {
-  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    if let location = locations.first {
-      print("Current location: \(location)")
-      delegate?.locationDidUpdate(self, location: location);
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            print("Current location: \(location)")
+            delegate?.locationDidUpdate(self, location: location);
+        }
     }
-  }
   
-  func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-    print("Error finding location: \(error.localizedDescription)")
-  }
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print("Error finding location: \(error.localizedDescription)")
+    }
 }

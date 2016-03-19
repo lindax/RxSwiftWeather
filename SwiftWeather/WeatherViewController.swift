@@ -4,46 +4,51 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class WeatherViewController: UIViewController {
   
-  @IBOutlet weak var locationLabel: UILabel!
-  @IBOutlet weak var iconLabel: UILabel!
-  @IBOutlet weak var temperatureLabel: UILabel!
-  @IBOutlet var forecastViews: [ForecastView]!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var iconLabel: UILabel!
+    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet var forecastViews: [ForecastView]!
+    
+    let disposeBag = DisposeBag()
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    viewModel = WeatherViewModel()
-    viewModel?.startLocationService()
-  }
-
-  // MARK: ViewModel
-  var viewModel: WeatherViewModel? {
-    didSet {
-      viewModel?.location.observe {
-        [unowned self] in
-        self.locationLabel.text = $0
-      }
-
-      viewModel?.iconText.observe {
-        [unowned self] in
-        self.iconLabel.text = $0
-      }
-
-      viewModel?.temperature.observe {
-        [unowned self] in
-        self.temperatureLabel.text = $0
-      }
-
-      viewModel?.forecasts.observe {
-        [unowned self] (let forecastViewModels) in
-        if forecastViewModels.count >= 4 {
-          for (index, forecastView) in self.forecastViews.enumerate() {
-            forecastView.loadViewModel(forecastViewModels[index])
-          }
-        }
-      }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let viewModel = WeatherViewModel()
+        
+        viewModel.startLocationService()
+        
+        viewModel.location.asObservable()
+            .bindTo(locationLabel.rx_text)
+            .addDisposableTo(disposeBag)
+        
+        viewModel.iconText.asObservable()
+            .bindTo(iconLabel.rx_text)
+            .addDisposableTo(disposeBag)
+        
+        viewModel.temperature.asObservable()
+            .bindTo(temperatureLabel.rx_text)
+            .addDisposableTo(disposeBag)
+        
+        viewModel.forecasts.asObservable()
+            .bindNext { forecastModels in
+                if forecastModels.count >= 4 {
+                    for (index, forecastView) in self.forecastViews.enumerate() {
+                        forecastView.timeLabel.text = forecastModels[index].time
+                        forecastView.iconLabel.text = forecastModels[index].iconText
+                        forecastView.temperatureLabel.text = forecastModels[index].temperature
+                    }
+                }
+            }
+            .addDisposableTo(disposeBag)
     }
-  }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
+    
 }

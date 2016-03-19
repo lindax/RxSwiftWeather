@@ -6,16 +6,16 @@
 import Foundation
 
 struct ForecastDateTime {
-  let rawDate: Double
+    let rawDate: Double
   
-  init(_ date: Double) {
-    rawDate = date
-  }
+    init(_ date: Double) {
+        rawDate = date
+    }
   
-  var shortTime: String {
-    let dateFormatter = NSDateFormatter()
-    dateFormatter.dateFormat = "HH:mm"
-    let date = NSDate(timeIntervalSince1970: rawDate)
-    return dateFormatter.stringFromDate(date)
-  }
+    var shortTime: String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        let date = NSDate(timeIntervalSince1970: rawDate)
+        return dateFormatter.stringFromDate(date)
+    }
 }
