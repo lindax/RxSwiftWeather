@@ -10,10 +10,10 @@ import SwiftyJSON
 import RxSwift
 import RxCocoa
 
-struct OpenWeatherMapService {
-    private static let urlPath = "http://api.openweathermap.org/data/2.5/forecast"
+struct OpenWeatherMapService: RxWeatherServiceProtocol {
+    private let urlPath = "http://api.openweathermap.org/data/2.5/forecast"
 
-    static func rx_retrieveWeatherInfo(location: CLLocation) -> Observable<Weather> {
+    func rx_retrieveWeatherInfo(location: CLLocation) -> Observable<Weather> {
 
         guard let url = generateRequestURL(location) else {
             return Observable.error(Error(errorCode: .URLError))
@@ -68,7 +68,7 @@ struct OpenWeatherMapService {
         }
     }
 
-    private static func generateRequestURL(location: CLLocation) -> NSURL? {
+    private func generateRequestURL(location: CLLocation) -> NSURL? {
         guard let components = NSURLComponents(string: urlPath) else {
             return nil
         }

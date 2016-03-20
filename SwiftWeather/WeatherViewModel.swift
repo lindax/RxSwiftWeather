@@ -22,6 +22,7 @@ class WeatherViewModel {
 
     // MARK: - Services
     private var locationService: kLocationService
+    private var weatherService: RxWeatherServiceProtocol
 
     private let locationManager = CLLocationManager()
 
@@ -30,6 +31,7 @@ class WeatherViewModel {
     // MARK: - init
     init() {
         locationService = kLocationService()
+        weatherService = OpenWeatherMapService()
 
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         /// 位置更新事件
@@ -45,9 +47,9 @@ class WeatherViewModel {
                     return Observable.empty()
                 }
             }
-            .flatMap { OpenWeatherMapService.rx_retrieveWeatherInfo($0) }
-            .observeOn(MainScheduler.instance)
+            .flatMap { [unowned self] in self.weatherService.rx_retrieveWeatherInfo($0) }
             .doOnError { print($0) }
+            .observeOn(MainScheduler.instance)
             .bindNext { [unowned self] weather in
                 self.hasError.value = false
                 self.errorMessage.value = nil
