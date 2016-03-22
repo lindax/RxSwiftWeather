@@ -1,16 +1,16 @@
 PODS:
-  - Nimble (3.0.0)
-  - Quick (0.8.0)
-  - RxCocoa (2.2.0):
-    - RxSwift (~> 2.2)
-  - RxSwift (2.2.0)
+  - Nimble (3.2.0)
+  - Quick (0.9.1)
+  - RxCocoa (2.3.0):
+    - RxSwift (~> 2.3)
+  - RxSwift (2.3.0)
   - SwiftyJSON (2.3.0)
 
 DEPENDENCIES:
   - Nimble
   - Quick
-  - RxCocoa
-  - RxSwift
+  - RxCocoa (~> 2.3)
+  - RxSwift (~> 2.3)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`, branch `xcode7.1`)
 
 EXTERNAL SOURCES:
@@ -24,12 +24,12 @@ CHECKOUT OPTIONS:
     :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
 SPEC CHECKSUMS:
-  Nimble: 4c353d43735b38b545cbb4cb91504588eb5de926
-  Quick: 563d0f6ec5f72e394645adb377708639b7dd38ab
-  RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
-  RxSwift: b8a749f2204c6c7a5c29b306a9c3bc11d5b87c5b
+  Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
+  Quick: a5221fc21788b6aeda934805e68b061839bc3165
+  RxCocoa: cde4e993f496d2577bc3ba8b7dc7bf55a4ed809a
+  RxSwift: 0df59cc5edf28a31dbf83b049220b4b8e76b07c8
   SwiftyJSON: 705aa707804b63377e49adf096d3f1bd59afafbc
 
-PODFILE CHECKSUM: 42156e6e17b9292e7d70de6bb379a9b2b50c7cbd
+PODFILE CHECKSUM: 94adfe73ff163734d2598e1808279cbf7de704b4
 
 COCOAPODS: 1.0.0.beta.4
